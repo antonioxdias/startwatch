@@ -6,10 +6,13 @@ const Timer = () => {
 
   const start = () => setIsActive(true)
   const stop = () => setIsActive(false)
+  const reset = () => {
+    if (isActive) setIsActive(false)
+    setTime(0)
+  }
 
   const pad = (num: number, z: number = 2) => ('00' + num).slice(-z)
   const timeDisplay = () => {
-    console.log(time)
     let s = time
     let ms = s % 1000;
     s = (s - ms) / 1000;
@@ -22,7 +25,7 @@ const Timer = () => {
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null
-    if (isActive && interval && time >= 360000) { // 1h in centiseconds
+    if (isActive && interval && time >= 3600000) { // 1h in centiseconds
       clearInterval(interval)
       stop()
     }
@@ -38,18 +41,41 @@ const Timer = () => {
     return () => { interval && clearInterval(interval) }
   }, [isActive])
 
+  useEffect(() => {
+    const onKeyUp = (ev: KeyboardEvent) => {
+      // space -> start/stop
+      console.log(isActive)
+      if (ev.keyCode === 32) {
+        if (isActive) stop()
+        if (!isActive) start()
+      }
+
+      // r, R -> reset
+      if (ev.keyCode === 82) {
+        reset()
+      }
+    }
+    document.addEventListener('keyup', onKeyUp)
+    return () => document.removeEventListener('keyup', onKeyUp)
+  }, [isActive])
+
   return (
     <div
     >
       <h1
-        style={{ color: 'wheat' }}
+        style={{
+          color: 'wheat',
+          fontSize: 128,
+          fontFamily: 'monospace, monospace',
+          letterSpacing: '-0.5rem'
+        }}
       >
         { timeDisplay() }
       </h1>
       {
         isActive ? (
           <button onClick={stop} >
-            Stop
+            stop
           </button>
         ) : (
           <button onClick={start} >
@@ -57,6 +83,9 @@ const Timer = () => {
           </button>
         )
       }
+      <button onClick={reset} >
+        reset
+      </button>
     </div>
   )
 }
