@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from 'react'
+import { timeDisplay } from '../lib/utils'
 
-const Timer = () => {
+const startTimeout = 1000
+
+const Timer = ({ saveTime }: { saveTime: (time: number) => void }) => {
   const [time, setTime] = useState(0)
+  const [timeoutRunning, setTimeoutRunning] = useState(false)
+  const [canStart, setCanStart] = useState(false)
   const [isActive, setIsActive] = useState(false)
 
   const start = () => setIsActive(true)
-  const stop = () => setIsActive(false)
-  const reset = () => {
-    if (isActive) setIsActive(false)
-    setTime(0)
-  }
+  const stop = () => {
+    setIsActive(false)
+    setCanStart(false)
 
-  const pad = (num: number, z: number = 2) => ('00' + num).slice(-z)
-  const timeDisplay = () => {
-    let s = time
-    let ms = s % 1000;
-    s = (s - ms) / 1000;
-    let secs = s % 60;
-    s = (s - secs) / 60;
-    const mins = s % 60;
-  
-    return pad(mins) + ':' + pad(secs) + '.' + pad(ms, 3)
+    saveTime(time)
+  }
+  const reset = () => {
+    if (isActive) stop()
+    setTime(0)
   }
 
   useEffect(() => {
@@ -32,9 +30,7 @@ const Timer = () => {
 
     if (isActive) {
       const start = Date.now()
-      interval = setInterval(() => {
-        setTime(time => Date.now() - start)
-      }, 1)
+      interval = setInterval(() => setTime(Date.now() - start), 1)
     } else if (!isActive && time !== 0 && interval) {
       clearInterval(interval)
     }
@@ -42,12 +38,15 @@ const Timer = () => {
   }, [isActive])
 
   useEffect(() => {
-    const onKeyUp = (ev: KeyboardEvent) => {
-      // space -> start/stop
-      console.log(isActive)
-      if (ev.keyCode === 32) {
-        if (isActive) stop()
-        if (!isActive) start()
+    let timeout: NodeJS.Timeout | null = null
+    const onKeyDown = (ev: KeyboardEvent) => {
+      // space -> start countdown to start
+      if (ev.keyCode === 32 && !timeoutRunning && !isActive) {
+        setCanStart(false)
+        setTimeoutRunning(true)
+        timeout = setTimeout(() => {
+          setCanStart(true)
+        }, startTimeout)
       }
 
       // r, R -> reset
@@ -55,13 +54,33 @@ const Timer = () => {
         reset()
       }
     }
+
+    const onKeyUp = (ev: KeyboardEvent) => {
+      // space -> start/stop
+      if (ev.keyCode === 32) {
+        setTimeoutRunning(false)
+        if (timeout) clearTimeout(timeout)
+        if (isActive && time !== 0) stop()
+        if (!isActive && canStart) start()
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown)
     document.addEventListener('keyup', onKeyUp)
-    return () => document.removeEventListener('keyup', onKeyUp)
-  }, [isActive])
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.removeEventListener('keyup', onKeyUp)
+    }
+  }, [timeoutRunning, canStart, isActive, time])
 
   return (
     <div
+      style={{
+        display: 'flex',
+        alignItems: 'center'
+      }}
     >
+      <TimeoutIndicator timeoutRunning={timeoutRunning} canStart={canStart} isActive={isActive} />
       <h1
         style={{
           color: 'wheat',
@@ -70,23 +89,40 @@ const Timer = () => {
           letterSpacing: '-0.5rem'
         }}
       >
-        { timeDisplay() }
+        { timeDisplay(time) }
       </h1>
-      {
-        isActive ? (
-          <button onClick={stop} >
-            stop
-          </button>
-        ) : (
-          <button onClick={start} >
-            start
-          </button>
-        )
-      }
-      <button onClick={reset} >
-        reset
-      </button>
+      <TimeoutIndicator timeoutRunning={timeoutRunning} canStart={canStart} isActive={isActive} />
     </div>
+  )
+}
+
+const TimeoutIndicator = ({ timeoutRunning, canStart, isActive }: {
+  timeoutRunning: boolean;
+  canStart: boolean;
+  isActive: boolean;
+}) => {
+  let backgroundColor = 'transparent'
+  let borderColor = 'transparent'
+  if (!canStart && timeoutRunning && !isActive) {
+    backgroundColor = 'darkred'
+    borderColor = 'red'
+  }
+  if (canStart && timeoutRunning && !isActive) {
+    backgroundColor = 'limegreen'
+    borderColor = 'green'
+  }
+
+  return (
+    <div
+      style={{
+        height: '2rem',
+        width: '2rem',
+        margin: '1rem',
+        backgroundColor,
+        borderRadius: '50%',
+        border: `solid 2px ${borderColor}`
+      }}
+    />
   )
 }
 
