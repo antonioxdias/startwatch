@@ -18,7 +18,8 @@ const useTimes = (puzzle: string) => {
 
   return {
     times,
-    addTime: (time: number) => setTimes(times => [...times, time])
+    addTime: (time: number) => setTimes(times => [...times, time]),
+    clearTimes: () => setTimes([])
   }
 }
 

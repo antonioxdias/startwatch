@@ -6,7 +6,7 @@ import Timer from './components/Timer'
 import './App.css'
 
 function App() {
-  const { times, addTime } = useTimes('3x3')
+  const { times, addTime, clearTimes } = useTimes('3x3')
 
   return (
     <div className="App">
@@ -14,6 +14,7 @@ function App() {
       {
         times.map(time => <span>{timeDisplay(time)}</span>)
       }
+      <button onClick={clearTimes}>Reset times</button>
     </div>
   )
 }
