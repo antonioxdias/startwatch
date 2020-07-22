@@ -1,41 +1,51 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { timeDisplay } from '../lib/utils'
 
 const startTimeout = 1000
 
 const Timer = ({ saveTime }: { saveTime: (time: number) => void }) => {
+  const [counterInterval, setCounterInterval] = useState<NodeJS.Timeout | null>(null)
   const [time, setTime] = useState(0)
   const [timeoutRunning, setTimeoutRunning] = useState(false)
   const [canStart, setCanStart] = useState(false)
   const [isActive, setIsActive] = useState(false)
 
-  const start = () => setIsActive(true)
-  const stop = () => {
+  const start = () => {
+    setTime(0)
+    setIsActive(true)
+  }
+  const stop = useCallback((time: number) => {
     setIsActive(false)
     setCanStart(false)
 
     saveTime(time)
-  }
-  const reset = () => {
-    if (isActive) stop()
+  }, [saveTime])
+  const reset = useCallback((time: number) => {
+    if (isActive) stop(time)
     setTime(0)
-  }
+  }, [isActive, stop])
 
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null
-    if (isActive && interval && time >= 3600000) { // 1h in centiseconds
-      clearInterval(interval)
-      stop()
+    if (isActive && counterInterval && time >= 3600000) { // 1h in centiseconds
+      clearInterval(counterInterval)
+      setCounterInterval(null)
+      stop(time)
     }
 
-    if (isActive) {
+    if (isActive && !counterInterval && time === 0) {
       const start = Date.now()
-      interval = setInterval(() => setTime(Date.now() - start), 1)
-    } else if (!isActive && time !== 0 && interval) {
-      clearInterval(interval)
+      setCounterInterval(setInterval(() => setTime(Date.now() - start), 1))
+    } else if (!isActive && time !== 0 && counterInterval) {
+      clearInterval(counterInterval)
+      setCounterInterval(null)
     }
-    return () => { interval && clearInterval(interval) }
-  }, [isActive])
+    return () => {
+      if (counterInterval && !isActive) {
+        clearInterval(counterInterval)
+        setCounterInterval(null)
+      }
+    }
+  }, [isActive, stop, counterInterval, time])
 
   useEffect(() => {
     let timeout: NodeJS.Timeout | null = null
@@ -51,7 +61,7 @@ const Timer = ({ saveTime }: { saveTime: (time: number) => void }) => {
 
       // r, R -> reset
       if (ev.keyCode === 82) {
-        reset()
+        reset(time)
       }
     }
 
@@ -60,7 +70,7 @@ const Timer = ({ saveTime }: { saveTime: (time: number) => void }) => {
       if (ev.keyCode === 32) {
         setTimeoutRunning(false)
         if (timeout) clearTimeout(timeout)
-        if (isActive && time !== 0) stop()
+        if (isActive && time !== 0) stop(time)
         if (!isActive && canStart) start()
       }
     }
@@ -71,7 +81,7 @@ const Timer = ({ saveTime }: { saveTime: (time: number) => void }) => {
       document.removeEventListener('keydown', onKeyDown)
       document.removeEventListener('keyup', onKeyUp)
     }
-  }, [timeoutRunning, canStart, isActive, time])
+  }, [timeoutRunning, canStart, isActive, time, reset, stop])
 
   return (
     <div

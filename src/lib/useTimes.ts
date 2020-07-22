@@ -14,7 +14,7 @@ const saveTimesForPuzzle = (puzzle: string, times: number[]) => {
 const useTimes = (puzzle: string) => {
   const [times, setTimes] = useState<number[]>(getTimesForPuzzle(puzzle) || [])
 
-  useEffect(() => saveTimesForPuzzle(puzzle, times), [times])
+  useEffect(() => saveTimesForPuzzle(puzzle, times), [times, puzzle])
 
   return {
     times,
