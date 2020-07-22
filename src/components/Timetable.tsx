@@ -12,10 +12,13 @@ const Timetable = ({ times }: { times: number[]}) => {
     }}>
       <ol>
         {
-          times.map(time => (
-            <li style={{
-              fontFamily: 'monospace, monospace'
-            }}>
+          times.map((time: number, index: number) => (
+            <li
+              key={index}
+              style={{
+                fontFamily: 'monospace, monospace'
+              }}
+            >
               { timeDisplay(time, true) }
             </li>
           ))
