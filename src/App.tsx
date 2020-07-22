@@ -3,8 +3,6 @@ import useTimes from './lib/useTimes'
 import Timer from './components/Timer'
 import Timetable from './components/Timetable'
 
-import './App.css'
-
 function App() {
   const { times, addTime, clearTimes } = useTimes('3x3')
 
