@@ -11,3 +11,5 @@ export const timeDisplay = (time: number, simple: boolean = false) => {
   if (simple && mins === 0) return pad(secs) + '.' + pad(ms, 3)
   return pad(mins) + ':' + pad(secs) + '.' + pad(ms, 3)
 }
+
+// https://github.com/nickcolley/scrambo
