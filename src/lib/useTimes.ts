@@ -18,12 +18,12 @@ const calcAvg5 = (times: number[]) => {
   const ts = times.slice(times.length - 5)
   // remove best time
   const maxIndex = ts.indexOf(Math.max(...ts))
-  delete ts[maxIndex]
+  ts.splice(maxIndex, 1)
   // remove worst time
   const minIndex = ts.indexOf(Math.min(...ts))
-  delete ts[minIndex]
+  ts.splice(minIndex, 1)
 
-  return ts.reduce((sum, current) => sum + current) / 3
+  return ts.reduce((sum, current) => sum + current)/ 3
 }
 
 const useTimes = (puzzle: string) => {
