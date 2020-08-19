@@ -33,6 +33,7 @@ function App() {
           margin: 'auto'
         }}
       >
+        <p>{ puzzle }</p>
         <p>{ scramble }</p>
         <Timer saveTime={addTime} />
         <div
