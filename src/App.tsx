@@ -1,16 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Puzzle, timeDisplay } from './lib/utils'
 import useTimes from './lib/useTimes'
+import useScramble from './lib/useScramble'
 import Timer from './components/Timer'
 import Timetable from './components/Timetable'
-import { timeDisplay } from './lib/utils'
 
 function App() {
+  const [puzzle, setPuzzle] = useState(Puzzle.Three)
   const {
     times,
     addTime,
     clearTimes,
     average
-  } = useTimes('3x3')
+  } = useTimes(puzzle)
+  const { scramble } = useScramble(puzzle, times)
 
   return (
     <div
@@ -30,6 +33,7 @@ function App() {
           margin: 'auto'
         }}
       >
+        <p>{ scramble }</p>
         <Timer saveTime={addTime} />
         <div
           style={{

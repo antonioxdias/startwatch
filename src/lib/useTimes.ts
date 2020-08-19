@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { time } from 'console'
 
 interface Average {
   of5: number | null
@@ -34,12 +33,17 @@ const calcAvgOf = (times: number[], ofNumber: number) => {
   return ts.reduce((sum, current) => sum + current) / (ofNumber - 2)
 }
 
+const calcAvgAllTime = (times: number[]) => {
+  if (!times.length) return null
+  return times.reduce((sum, current) => sum + current) / times.length
+}
+
 const calcAverages = (times: number[]) => {
   return {
     of5: calcAvgOf(times, 5),
     of12: calcAvgOf(times, 12),
     of100: calcAvgOf(times, 100),
-    allTime: times.reduce((sum, current) => sum + current) / times.length
+    allTime: calcAvgAllTime(times)
   } as Average
 }
 

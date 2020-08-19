@@ -1,3 +1,7 @@
+export enum Puzzle {
+  Three = "3x3x3"
+}
+
 const pad = (num: number, z: number = 2) => ('00' + num).slice(-z)
 
 export const timeDisplay = (time: number, simple: boolean = false) => {
