@@ -9,7 +9,7 @@ function App() {
     times,
     addTime,
     clearTimes,
-    avg5
+    average
   } = useTimes('3x3')
 
   return (
@@ -39,7 +39,10 @@ function App() {
           <Timetable times={times} />
           <div>
             <p>
-              avg5: { timeDisplay(avg5 || 0) }
+              avg5: { average.of5 ? timeDisplay(average.of5) : '---' }
+            </p>
+            <p>
+              avg12: { average.of12 ? timeDisplay(average.of12) : '---' }
             </p>
             <button onClick={clearTimes}>clear times</button>
           </div>

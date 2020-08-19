@@ -1,4 +1,12 @@
 import { useState, useEffect } from 'react'
+import { time } from 'console'
+
+interface Average {
+  of5: number | null
+  of12: number | null
+  of100: number | null
+  allTime: number | null
+}
 
 const getTimesForPuzzle = (puzzle: string) => {
   const item = localStorage.getItem(puzzle)
@@ -11,11 +19,11 @@ const saveTimesForPuzzle = (puzzle: string, times: number[]) => {
   localStorage.setItem(puzzle, times.join(';'))
 }
 
-const calcAvg5 = (times: number[]) => {
-  if (times.length < 5) return null
+const calcAvgOf = (times: number[], ofNumber: number) => {
+  if (times.length < ofNumber) return null
 
   // keep only last 5 results
-  const ts = times.slice(times.length - 5)
+  const ts = times.slice(times.length - ofNumber)
   // remove best time
   const maxIndex = ts.indexOf(Math.max(...ts))
   ts.splice(maxIndex, 1)
@@ -23,21 +31,30 @@ const calcAvg5 = (times: number[]) => {
   const minIndex = ts.indexOf(Math.min(...ts))
   ts.splice(minIndex, 1)
 
-  return ts.reduce((sum, current) => sum + current)/ 3
+  return ts.reduce((sum, current) => sum + current) / (ofNumber - 2)
+}
+
+const calcAverages = (times: number[]) => {
+  return {
+    of5: calcAvgOf(times, 5),
+    of12: calcAvgOf(times, 12),
+    of100: calcAvgOf(times, 100),
+    allTime: times.reduce((sum, current) => sum + current) / times.length
+  } as Average
 }
 
 const useTimes = (puzzle: string) => {
   const [times, setTimes] = useState<number[]>(getTimesForPuzzle(puzzle) || [])
-  const [avg5, setAvg5] = useState<number | null>(calcAvg5(times))
+  const [average, setAverage] = useState<Average>(calcAverages(times))
 
   useEffect(() => saveTimesForPuzzle(puzzle, times), [times, puzzle])
-  useEffect(() => setAvg5(calcAvg5(times)), [times])
+  useEffect(() => setAverage(calcAverages(times)), [times])
 
   return {
     times,
     addTime: (time: number) => setTimes(times => [...times, time]),
     clearTimes: () => setTimes([]),
-    avg5
+    average
   }
 }
 
