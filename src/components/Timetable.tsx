@@ -10,7 +10,15 @@ const Timetable = ({ times }: { times: number[]}) => {
       border: 'solid 1px wheat',
       borderRadius: '8px'
     }}>
-      <ol>
+      <ol
+       style={{
+         display: 'flex',
+         flexDirection: 'column',
+         flexWrap: 'wrap',
+         maxHeight: 150,
+         width: 320
+       }}
+      >
         {
           times.map((time: number, index: number) => (
             <li
