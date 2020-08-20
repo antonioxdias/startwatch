@@ -1,5 +1,7 @@
 export enum Puzzle {
-  Three = "3x3x3"
+  Two = "2x2x2",
+  Three = "3x3x3",
+  Four = "4x4x4"
 }
 
 const pad = (num: number, z: number = 2) => ('00' + num).slice(-z)
@@ -15,5 +17,3 @@ export const timeDisplay = (time: number, simple: boolean = false) => {
   if (simple && mins === 0) return pad(secs) + '.' + pad(ms, 3)
   return pad(mins) + ':' + pad(secs) + '.' + pad(ms, 3)
 }
-
-// https://github.com/nickcolley/scrambo

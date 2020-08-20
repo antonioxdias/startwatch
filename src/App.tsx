@@ -33,7 +33,14 @@ function App() {
           margin: 'auto'
         }}
       >
-        <p>{ puzzle }</p>
+        <select
+          value={puzzle}
+          onChange={ev => setPuzzle(ev.target.value as Puzzle)}
+        >
+          <option value={Puzzle.Two}>{Puzzle.Two}</option>
+          <option value={Puzzle.Three}>{Puzzle.Three}</option>
+          <option value={Puzzle.Four}>{Puzzle.Four}</option>
+        </select>
         <p>{ scramble }</p>
         <Timer saveTime={addTime} />
         <div

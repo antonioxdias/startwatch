@@ -51,6 +51,7 @@ const useTimes = (puzzle: string) => {
   const [times, setTimes] = useState<number[]>(getTimesForPuzzle(puzzle) || [])
   const [average, setAverage] = useState<Average>(calcAverages(times))
 
+  useEffect(() => setTimes(getTimesForPuzzle(puzzle)), [puzzle])
   useEffect(() => saveTimesForPuzzle(puzzle, times), [times, puzzle])
   useEffect(() => setAverage(calcAverages(times)), [times])
 
