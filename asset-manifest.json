@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/antonioxdias/startwatch/static/css/main.5ecd60fb.chunk.css",
-    "main.js": "/antonioxdias/startwatch/static/js/main.4ae89524.chunk.js",
-    "main.js.map": "/antonioxdias/startwatch/static/js/main.4ae89524.chunk.js.map",
-    "runtime-main.js": "/antonioxdias/startwatch/static/js/runtime-main.62ac9fac.js",
-    "runtime-main.js.map": "/antonioxdias/startwatch/static/js/runtime-main.62ac9fac.js.map",
-    "static/js/2.8a66777d.chunk.js": "/antonioxdias/startwatch/static/js/2.8a66777d.chunk.js",
-    "static/js/2.8a66777d.chunk.js.map": "/antonioxdias/startwatch/static/js/2.8a66777d.chunk.js.map",
-    "index.html": "/antonioxdias/startwatch/index.html",
-    "precache-manifest.86b4856ffaeea7fa0a49a153d1ba8dcd.js": "/antonioxdias/startwatch/precache-manifest.86b4856ffaeea7fa0a49a153d1ba8dcd.js",
-    "service-worker.js": "/antonioxdias/startwatch/service-worker.js",
-    "static/css/main.5ecd60fb.chunk.css.map": "/antonioxdias/startwatch/static/css/main.5ecd60fb.chunk.css.map",
-    "static/js/2.8a66777d.chunk.js.LICENSE.txt": "/antonioxdias/startwatch/static/js/2.8a66777d.chunk.js.LICENSE.txt"
+    "main.css": "/startwatch/static/css/main.5ecd60fb.chunk.css",
+    "main.js": "/startwatch/static/js/main.4ae89524.chunk.js",
+    "main.js.map": "/startwatch/static/js/main.4ae89524.chunk.js.map",
+    "runtime-main.js": "/startwatch/static/js/runtime-main.83c545f5.js",
+    "runtime-main.js.map": "/startwatch/static/js/runtime-main.83c545f5.js.map",
+    "static/js/2.8a66777d.chunk.js": "/startwatch/static/js/2.8a66777d.chunk.js",
+    "static/js/2.8a66777d.chunk.js.map": "/startwatch/static/js/2.8a66777d.chunk.js.map",
+    "index.html": "/startwatch/index.html",
+    "precache-manifest.a674e468a01b0590b0de44eae54b0b27.js": "/startwatch/precache-manifest.a674e468a01b0590b0de44eae54b0b27.js",
+    "service-worker.js": "/startwatch/service-worker.js",
+    "static/css/main.5ecd60fb.chunk.css.map": "/startwatch/static/css/main.5ecd60fb.chunk.css.map",
+    "static/js/2.8a66777d.chunk.js.LICENSE.txt": "/startwatch/static/js/2.8a66777d.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.62ac9fac.js",
+    "static/js/runtime-main.83c545f5.js",
     "static/js/2.8a66777d.chunk.js",
     "static/css/main.5ecd60fb.chunk.css",
     "static/js/main.4ae89524.chunk.js"
