@@ -37,9 +37,9 @@ function App() {
           value={puzzle}
           onChange={ev => setPuzzle(ev.target.value as Puzzle)}
         >
-          <option value={Puzzle.Two}>{Puzzle.Two}</option>
-          <option value={Puzzle.Three}>{Puzzle.Three}</option>
-          <option value={Puzzle.Four}>{Puzzle.Four}</option>
+          {Object.values(Puzzle).map(p => (
+            <option key={p} value={p}>{p}</option>
+          ))}
         </select>
         <p>{ scramble }</p>
         <Timer saveTime={addTime} />
