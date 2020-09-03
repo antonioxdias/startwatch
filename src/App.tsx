@@ -16,23 +16,18 @@ function App() {
   const { scramble } = useScramble(puzzle, times)
 
   return (
-    <div
+    <main
       style={{
-          backgroundColor: '#282c34',
-          minHeight: '100vh',
-          fontSize: 'calc(10px + 2vmin)',
-          color: 'white',
+        display: 'grid',
+        gridTemplateRows: '120px 30% 1fr',
+        placeItems: 'center',
+        backgroundColor: '#282c34',
+        height: '100vh',
+        fontSize: 'calc(10px + 2vmin)',
+        color: 'white'
       }}
     >
-      <main
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          maxWidth: 1200,
-          margin: 'auto'
-        }}
-      >
+      <div>
         <select
           value={puzzle}
           onChange={ev => setPuzzle(ev.target.value as Puzzle)}
@@ -41,26 +36,26 @@ function App() {
             <option key={p} value={p}>{p}</option>
           ))}
         </select>
-        <p>{ scramble }</p>
-        <Timer saveTime={addTime} />
-        <div
-          style={{
-            display: 'flex'
-          }}
-        >
-          <Timetable times={times} />
-          <div>
-            <p>
-              avg5: { average.of5 ? timeDisplay(average.of5) : '---' }
-            </p>
-            <p>
-              avg12: { average.of12 ? timeDisplay(average.of12) : '---' }
-            </p>
-            <button onClick={clearTimes}>clear times</button>
-          </div>
+        <p>{scramble}</p>
+      </div>
+      <Timer saveTime={addTime} />
+      <div
+        style={{
+          display: 'flex'
+        }}
+      >
+        <Timetable times={times} />
+        <div>
+          <p>
+            avg5: {average.of5 ? timeDisplay(average.of5) : '---'}
+          </p>
+          <p>
+            avg12: {average.of12 ? timeDisplay(average.of12) : '---'}
+          </p>
+          <button onClick={clearTimes}>clear times</button>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   )
 }
 

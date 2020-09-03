@@ -5,18 +5,19 @@ const Timetable = ({ times }: { times: number[]}) => {
 
   return (
     <div style={{
-      margin: '1rem',
+      margin: '0 1rem',
       padding: '1rem',
       border: 'solid 1px wheat',
-      borderRadius: '8px'
+      borderRadius: '8px',
+      overflow: 'hidden auto'
     }}>
       <ol
        style={{
          display: 'flex',
          flexDirection: 'column',
-         flexWrap: 'wrap',
-         maxHeight: 150,
-         width: 320
+         margin: 0,
+         width: 320,
+         maxHeight: 338
        }}
       >
         {

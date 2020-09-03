@@ -94,9 +94,10 @@ const Timer = ({ saveTime }: { saveTime: (time: number) => void }) => {
       <h1
         style={{
           color: 'wheat',
-          fontSize: 128,
+          fontSize: 'min(calc(100vw * 0.15), 140px)',
           fontFamily: 'monospace, monospace',
-          letterSpacing: '-0.5rem'
+          letterSpacing: '-0.5rem',
+          margin: 0
         }}
       >
         { timeDisplay(time) }
