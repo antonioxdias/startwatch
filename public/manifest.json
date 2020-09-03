@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Startwatch",
+  "name": "Startwatch - Yet another puzzle timer",
   "icons": [
     {
       "src": "favicon.ico",
